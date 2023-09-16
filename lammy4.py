@@ -1,8 +1,6 @@
 import streamlit as st
 from langchain import PromptTemplate
 from langchain.llms import OpenAI
-import os
-from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
@@ -30,16 +28,14 @@ def get_text_chunks(extracted_text):
 
 # Function to create vector store 
 def get_vectorstore(text_chunks):
-    load_dotenv()
-    openai_api_key = os.getenv("openai_api_key")
+    openai_api_key = st.secrets["openai_api_key"]
     embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
 
 # Function to use LLM to produce analysis - work on this next
 def process_input(vectorstore, grade_input, feedback_input):
-    load_dotenv()
-    openai_api_key = os.getenv("openai_api_key")
+    openai_api_key = st.secrets["openai_api_key"]
     llm = OpenAI(model_name="text-davinci-003", openai_api_key=openai_api_key)
     
     # Potential to improve this with stuctured output instructions
