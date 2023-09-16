@@ -3,4 +3,4 @@ openai
 streamlit
 PyPDF2
 tiktoken
-FAISS
+faiss-cpu
